@@ -1,0 +1,5 @@
+---
+- name: Setup hyprland graphical environment
+  hosts: mediabox
+  roles:
+    - hyprland

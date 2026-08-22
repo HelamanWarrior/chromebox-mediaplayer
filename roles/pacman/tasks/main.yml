@@ -1,0 +1,48 @@
+---
+- name: Enable pacman color
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#Color'
+    line: 'Color'
+    state: present
+
+- name: Enable pacman ILoveCandy
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    insertafter: '^# Misc options'
+    line: 'ILoveCandy'
+
+- name: Install needed packages
+  become: true
+  community.general.pacman:
+    name:
+      - awww
+      - bash-completion
+      - btop
+      - dolphin
+      - fastfetch
+      - firefox
+      - foot
+      - git
+      - hyprland
+      - hyprpolkitagent
+      - intel-media-driver
+      - intel-ucode
+      - iwd
+      - jellyfin-mpv-shim
+      - less
+      - libva-intel-driver
+      - mc
+      - noto-fonts
+      - ttf-liberation
+      - ufw
+      - vim
+      - vulkan-intel
+      - wget
+      - wl-clipboard
+      - xdg-desktop-portal-gtk
+      - xdg-desktop-portal-hyprland
+      - xdg-utils
+    state: present

@@ -1,0 +1,37 @@
+---
+- name: Ensure all required directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  loop:
+    - "{{ mpv_path }}/scripts"
+    - "{{ mpv_jellyfin_shim_path }}"
+    - "{{ mpv_system_sounds_path }}"
+
+- name: Update mpv & jellyfin-mpv-shim configurations
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  loop:
+    - { src: mpv.conf, dest: "{{ mpv_path }}/mpv.conf" }
+    - { src: conf.json, dest: "{{ mpv_jellyfin_shim_path }}/conf.json" }
+    - { src: hyprland-autortc.lua, dest: "{{ mpv_jellyfin_shim_path }}/scripts/hyprland-autortc.lua"}
+
+- name: Add system sounds
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  loop:
+    - { src: sounds/boot.ogg, dest: "{{ mpv_system_sounds_path }}/boot.ogg" }
+    - { src: sounds/cast.wav, dest: "{{ mpv_system_sounds_path }}/cast.wav" }
+    - { src: sounds/close.wav, dest: "{{ mpv_system_sounds_path }}/close.wav"}

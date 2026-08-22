@@ -1,0 +1,5 @@
+---
+- name: Complete setup of jellyfin-mpv-shim & mpv
+  hosts: mediabox
+  roles:
+    - mpv

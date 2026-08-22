@@ -1,0 +1,51 @@
+---
+- name: Ensure all required directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: '0755'
+  loop:
+    - { path: "{{ hyprland_config_dir }}/scripts", user: "{{ ansible_user }}" }
+    - { path: "{{ hyprland_wallpapers_dir }}", user: "{{ ansible_user }}" }
+    - { path: "{{ hyprland_autologin_service_path }}", user: root }
+
+- name: Configure autologin on tty1
+  become: true
+  ansible.builtin.copy:
+    dest: "{{ hyprland_autologin_service_path }}/override.conf"
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=-/sbin/agetty --autologin {{ ansible_user }} --noclear %I $TERM
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Automatically start hyprland on login
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_facts['env']['HOME'] }}/.bash_profile"
+    block: |
+      if [[ -z "$DISPLAY" && "$XDG_VTNR" -eq "1" ]]; then
+          exec start-hyprland
+      fi
+    prepend_newline: true
+
+- name: Update hyprland configuration
+  ansible.builtin.copy:
+    src: hyprland.lua
+    dest: "{{ hyprland_config_dir }}/hyprland.lua"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  loop:
+    - { src: hyprland.lua, dest: "{{ hyprland_config_dir }}/hyprland.lua" }
+    - { src: wallpaper_changer.sh, dest: "{{ hyprland_config_dir }}/scripts/wallpaper_changer.sh"}
+
+- name: Synchronize device wallpapers
+  ansible.posix.synchronize:
+    src: wallpapers/
+    dest: "{{ hyprland_wallpapers_dir }}"
+    checksum: false

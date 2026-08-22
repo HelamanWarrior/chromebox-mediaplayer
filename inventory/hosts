@@ -1,0 +1,2 @@
+[mediabox]
+chromiebox-g2 ansible_host=10.8.0.5 ansible_user=parker

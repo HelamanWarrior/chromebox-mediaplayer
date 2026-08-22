@@ -1,0 +1,5 @@
+---
+- name: Setup pacman & install needed pkgs
+  hosts: mediabox
+  roles:
+    - pacman

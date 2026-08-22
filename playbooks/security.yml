@@ -1,0 +1,6 @@
+---
+- name: Apply basic security configurations
+  hosts: mediabox
+  roles:
+    - ssh_hardening
+    - firewall_baseline
