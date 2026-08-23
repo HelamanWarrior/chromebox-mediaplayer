@@ -84,7 +84,7 @@
     "skip_credits_enable": true,
     "skip_intro_always": false,
     "skip_intro_enable": true,
-    "stop_cmd": "pw-play ~/.config/system-sounds/close.wav &",
+    "stop_cmd": "sleep 1; pw-play ~/.config/system-sounds/close.wav &",
     "stop_idle": false,
     "subtitle_color": "#FFFFFFFF",
     "subtitle_position": "bottom",
