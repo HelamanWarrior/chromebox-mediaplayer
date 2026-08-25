@@ -12,7 +12,7 @@ while true; do
     IMG=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.webp" \) | shuf -n 1)
 
     if [ -n "$IMG" ]; then
-        awww img "$IMG" --transition-type fade --transition-duration 4 --transition-fps 120
+        awww img "$IMG" --transition-type fade --transition-duration 4 --transition-fps 60
     fi
 
     sleep $INTERVAL
