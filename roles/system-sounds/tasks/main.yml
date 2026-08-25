@@ -17,7 +17,7 @@
   community.general.ini_file:
     path: /etc/systemd/logind.conf
     section: Login
-    option: HandlePowerkey
+    option: HandlePowerKey
     value: ignore
     no_extra_spaces: true
     mode: '0600'
