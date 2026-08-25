@@ -1,0 +1,2 @@
+---
+system_sounds_path: "{{ ansible_facts['env']['HOME'] }}/.local/share/sounds"

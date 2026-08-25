@@ -1,0 +1,25 @@
+---
+- name: Ensure system sounds directory exists
+  ansible.builtin.file:
+    path: "{{ system_sounds_path }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Add system sounds
+  ansible.posix.synchronize:
+    src: sounds/
+    dest: "{{ system_sounds_path }}"
+
+- name: Configure systemd-logind to ignore physical power key
+  become: true
+  community.general.ini_file:
+    path: /etc/systemd/logind.conf
+    section: Login
+    option: HandlePowerkey
+    value: ignore
+    no_extra_spaces: true
+    mode: '0600'
+    state: present
+  notify: Restart systemd-logind

@@ -56,7 +56,7 @@ local menu = "wofi"
 -- end)
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("sh -c 'export XDG_RUNTIME_DIR=/run/user/$(id -u); for i in $(seq 1 30); do paplay ~/.config/system-sounds/boot.ogg 2>/dev/null && break; sleep 0.1; done' &")
+    hl.exec_cmd("sh -c 'export XDG_RUNTIME_DIR=/run/user/$(id -u); for i in $(seq 1 30); do paplay ~/.local/share/sounds/boot.ogg 2>/dev/null && break; sleep 0.1; done' &")
 
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("sh -c '~/.config/hypr/scripts/wallpaper_changer.sh' &")
@@ -289,6 +289,9 @@ hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+
+-- Custom shutdown
+hl.bind("" .. " + XF86PowerOff", hl.dsp.exec_cmd("pw-play ~/.local/share/sounds/shutdown.wav && systemctl poweroff"))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]

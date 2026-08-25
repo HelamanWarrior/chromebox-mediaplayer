@@ -3,3 +3,4 @@
   hosts: mediabox
   roles:
     - mpv
+    - system-sounds
