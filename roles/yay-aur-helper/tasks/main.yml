@@ -1,0 +1,10 @@
+---
+- name: Check if yay (aur) exists
+  ansible.builtin.command: yay --version
+  register: pkg_term_yay_check
+  changed_when: false
+  failed_when: false
+
+- name: Install yay (aur)
+  ansible.builtin.include_tasks: yay.yml
+  when: pkg_term_yay_check.rc != 0

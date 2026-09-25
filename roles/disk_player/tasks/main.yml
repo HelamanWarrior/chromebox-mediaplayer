@@ -1,0 +1,16 @@
+---
+
+- name: Install needed packages for playing dvd/bluray
+  become: true
+  community.general.pacman:
+    name:
+      - libbluray
+      - libaacs
+      - udisks2
+
+- name: Install libdvdcss from AUR
+  become: true
+  kewlfft.aur.aur:
+    name: libdvdcss
+    use: auto
+    state: present

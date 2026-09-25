@@ -1,0 +1,8 @@
+[Unit]
+Description=Autoplay inserted DVD/Blu-ray with mpv
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/parker/.local/bin/disc-autoplay.sh

@@ -1,0 +1,25 @@
+---
+- name: Clone yay repository
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: "{{ ansible_facts['env']['HOME'] }}/.cache/yay"
+    version: master
+    update: true
+
+- name: Build yay package
+  become: false
+  ansible.builtin.command:
+    cmd: makepkg --noconfirm
+    chdir: "{{ ansible_facts['env']['HOME'] }}/.cache/yay"
+
+- name: Find yay package
+  ansible.builtin.find:
+    paths: "{{ ansible_facts['env']['HOME'] }}//.cache/yay"
+    patterns: "yay-[0-9]*-x86_64.pkg.tar.zst"
+  register: yay_pkg
+
+- name: Install yay package
+  become: true
+  community.general.pacman:
+    name: "{{ yay_pkg.files[0].path }}"
+    state: present
