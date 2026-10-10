@@ -14,3 +14,8 @@ jellyfin_api_key: !vault |
           6362313962313237360a333466623964333364366464386634323035373966393333346662623363
           62303232396434376636323231323333333436633934393864653139613563313063623137343830
           6230636661343261656635386236323630323363316234656364
+mediabox_user: parker
+mediabox_home: "/home/{{ mediabox_user }}"
+mediabox_conf_dir: "{{ mediabox_home }}/.config"
+custom_scripts_dir: "{{ mediabox_home }}/.local/bin"
+systemd_user_dir: "{{ mediabox_conf_dir }}/systemd/user"

@@ -1,7 +1,0 @@
----
-- name: Restart bitrate timer
-  ansible.builtin.systemd:
-    name: jellyfin-autobitrate.timer
-    scope: user
-    state: restarted
-    daemon_reload: true

@@ -4,16 +4,16 @@
   ansible.builtin.file:
     path: "{{ mpv_path }}/scripts"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ mediabox_user }}"
+    group: "{{ mediabox_user }}"
     mode: '0755'
 
 - name: Update MPV configs & scripts
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ mediabox_user }}"
+    group: "{{ mediabox_user }}"
     mode: '0644'
   loop:
     - { src: mpv.conf, dest: "{{ mpv_path }}/mpv.conf" }

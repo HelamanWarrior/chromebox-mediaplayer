@@ -18,7 +18,6 @@
   become: true
   community.general.pacman:
     name:
-      - awww
       - bash-completion
       - btop
       - dolphin

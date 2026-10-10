@@ -5,16 +5,16 @@
     state: directory
     mode: '0755'
   loop:
-    - "{{ ansible_facts['env']['HOME'] }}/.local/bin"
-    - "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
+    - "{{ mediabox_conf_dir }}"
+    - "{{ systemd_user_dir }}"
     - "{{ mpv_jellyfin_shim_path }}"
 
 - name: Update jellyfin-mpv-shim conf.json
   ansible.builtin.copy:
     src: conf.json
     dest: "{{ mpv_jellyfin_shim_path }}/conf.json }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ mediabox_user }}"
+    group: "{{ mediabox_user }}"
     mode: '0644'
 
 - name: Install bitrate test dependencies
@@ -29,20 +29,20 @@
 - name: Install jellyfin-autobitrate.sh
   ansible.builtin.copy:
     src: jellyfin-autobitrate.sh
-    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/jellyfin-autobitrate.sh"
+    dest: "{{ custom_scripts_dir }}/jellyfin-autobitrate.sh"
     mode: '0755'
 
 - name: Install server URL and API key
   ansible.builtin.template:
     src: jellyfin-autobitrate.env.j2
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/jellyfin-autobitrate.env"
+    dest: "{{ mediabox_conf_dir }}/jellyfin-autobitrate.env"
     mode: '0600'
   no_log: true
 
 - name: Install bitrate service and timer
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/{{ item }}"
+    dest: "{{ systemd_user_dir }}/{{ item }}"
     mode: '0644'
   loop:
     - jellyfin-autobitrate.service

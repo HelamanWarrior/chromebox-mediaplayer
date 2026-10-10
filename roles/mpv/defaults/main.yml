@@ -1,2 +1,2 @@
 ---
-mpv_path: "{{ ansible_facts['env']['HOME'] }}/.config/mpv"
+mpv_path: "{{ mediabox_conf_dir }}/mpv"

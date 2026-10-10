@@ -1,5 +1,4 @@
 ---
-
 - name: Install needed packages for playing dvd/bluray
   become: true
   community.general.pacman:
@@ -16,16 +15,16 @@
     use: auto
     state: present
 
-- name: Create ~/.local/bin
+- name: Ensure scripts directory exists
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+    path: "{{ custom_scripts_dir }}"
     state: directory
     mode: '0755'
 
 - name: Install disk-autoplay.sh script
   ansible.builtin.copy:
     src: disk-autoplay.sh
-    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/disk-autoplay.sh"
+    dest: "{{ custom_scripts_dir }}/disk-autoplay.sh"
     mode: '0755'
 
 - name: Setup disk autoplay udev rule
@@ -40,27 +39,27 @@
 
 - name: Ensure systemd directory exists
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
+    path: "{{ systemd_user_dir }}"
     state: directory
     mode: '0755'
 
 - name: Install disk-autoplay user service
   ansible.builtin.copy:
     src: disk-autoplay.service
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/disk-autoplay.service"
+    dest: "{{ systemd_user_dir }}/disk-autoplay.service"
     mode: '0644'
   notify: Reload systemd user daemon
 
 - name: Install update-keydb.sh script
   ansible.builtin.copy:
     src: update-keydb.sh
-    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/update-keydb.sh"
+    dest: "{{ custom_scripts_dir }}/update-keydb.sh"
     mode: '0755'
 
 - name: Install update-keydb user service
   ansible.builtin.copy:
     src: update-keydb.service
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/update-keydb.service"
+    dest: "{{ systemd_user_dir }}/update-keydb.service"
     mode: '0644'
   notify: Reload systemd user daemon
 
