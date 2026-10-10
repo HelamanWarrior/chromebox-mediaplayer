@@ -5,9 +5,9 @@ CFG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 source "$CFG_DIR/jellyfin-autobitrate.env"          # JF_URL, JF_TOKEN
 CONF="$CFG_DIR/jellyfin-mpv-shim/conf.json"
 
-SAFETY=60        # % of measured throughput the stream may use
+SAFETY=70        # % of measured throughput the stream may use
 MIN_KBPS=2000
-MAX_KBPS=80000   # ceiling, so fast networks don't go past what you want
+MAX_KBPS=100000   # ceiling, so fast networks don't go past what you want
 SIZE=16000000    # bytes requested per sample
 SAMPLES=5
 MAX_TIME=6       # seconds per sample
