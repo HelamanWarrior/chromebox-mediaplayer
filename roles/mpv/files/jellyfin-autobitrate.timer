@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Jellyfin bitrate test at boot and every 30 minutes
+
+[Timer]
+OnStartupSec=2min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target

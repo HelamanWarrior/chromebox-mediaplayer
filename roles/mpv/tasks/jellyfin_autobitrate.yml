@@ -1,0 +1,50 @@
+---
+- name: Install bitrate test dependencies
+  become: true
+  community.general.pacman:
+    name:
+      - curl
+      - jq
+      - iproute2
+    state: present
+
+- name: Ensure user directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+    - "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
+
+- name: Install jellyfin-autobitrate.sh
+  ansible.builtin.copy:
+    src: jellyfin-autobitrate.sh
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/jellyfin-autobitrate.sh"
+    mode: '0755'
+
+- name: Install server URL and API key
+  ansible.builtin.template:
+    src: jellyfin-autobitrate.env.j2
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/jellyfin-autobitrate.env"
+    mode: '0600'
+  no_log: true
+
+- name: Install bitrate service and timer
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/{{ item }}"
+    mode: '0644'
+  loop:
+    - jellyfin-autobitrate.service
+    - jellyfin-autobitrate.timer
+  notify: Restart bitrate timer
+
+- name: Enable and start the bitrate timer
+  ansible.builtin.systemd:
+    name: jellyfin-autobitrate.timer
+    scope: user
+    enabled: true
+    state: started
+    daemon_reload: true
+  

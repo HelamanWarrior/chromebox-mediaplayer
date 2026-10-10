@@ -1,0 +1,6 @@
+[Unit]
+Description=Set Jellyfin MPV Shim bitrate from measured throughput
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/jellyfin-autobitrate.sh
