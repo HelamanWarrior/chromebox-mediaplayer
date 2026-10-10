@@ -1,0 +1,6 @@
+---
+- name: Setup DVD/Bluray playback
+  hosts: mediabox
+  roles:
+    - disk_player
+
