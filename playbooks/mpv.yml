@@ -3,4 +3,5 @@
   hosts: mediabox
   roles:
     - mpv
+    - jellyfin-mpv-shim
     - system-sounds

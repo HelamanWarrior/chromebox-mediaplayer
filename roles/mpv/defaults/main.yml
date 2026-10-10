@@ -1,3 +1,2 @@
 ---
-mpv_jellyfin_shim_path: "{{ ansible_facts['env']['HOME'] }}/.config/jellyfin-mpv-shim"
 mpv_path: "{{ ansible_facts['env']['HOME'] }}/.config/mpv"

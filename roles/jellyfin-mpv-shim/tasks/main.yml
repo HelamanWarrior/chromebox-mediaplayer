@@ -1,4 +1,22 @@
 ---
+- name: Ensure all directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+    - "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
+    - "{{ mpv_jellyfin_shim_path }}"
+
+- name: Update jellyfin-mpv-shim conf.json
+  ansible.builtin.copy:
+    src: conf.json
+    dest: "{{ mpv_jellyfin_shim_path }}/conf.json }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
 - name: Install bitrate test dependencies
   become: true
   community.general.pacman:
@@ -7,15 +25,6 @@
       - jq
       - iproute2
     state: present
-
-- name: Ensure user directories exist
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: '0755'
-  loop:
-    - "{{ ansible_facts['env']['HOME'] }}/.local/bin"
-    - "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
 
 - name: Install jellyfin-autobitrate.sh
   ansible.builtin.copy:
