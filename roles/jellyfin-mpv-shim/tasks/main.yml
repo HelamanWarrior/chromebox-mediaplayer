@@ -12,7 +12,7 @@
 - name: Update jellyfin-mpv-shim conf.json
   ansible.builtin.copy:
     src: conf.json
-    dest: "{{ mpv_jellyfin_shim_path }}/conf.json }}"
+    dest: "{{ mpv_jellyfin_shim_path }}/conf.json"
     owner: "{{ mediabox_user }}"
     group: "{{ mediabox_user }}"
     mode: '0644'
