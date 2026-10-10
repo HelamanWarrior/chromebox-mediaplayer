@@ -1,2 +1,1 @@
 ACTION=="change", KERNEL=="sr0", ENV{ID_CDROM_MEDIA}=="1", RUN+="/usr/bin/systemctl --user -M {{ ansible_facts['user_id'] }}@ start disk-autoplay.service"
-ACTION=="change", KERNEL=="sr0", ENV{ID_CDROM_MEDIA}!="1", RUN+="/usr/bin/rm -f {{ ansible_facts['env']['HOME'] }}/.local/state/disk-autoplay.last"
