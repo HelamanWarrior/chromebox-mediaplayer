@@ -1,0 +1,11 @@
+[Unit]
+Description=Update AACS KEYDB.cfg
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/update-keydb.sh
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=default.target

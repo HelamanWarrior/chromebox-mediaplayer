@@ -7,6 +7,7 @@
       - libbluray
       - libaacs
       - udisks2
+      - unzip
 
 - name: Install libdvdcss from AUR
   become: true
@@ -14,3 +15,52 @@
     name: libdvdcss
     use: auto
     state: present
+
+- name: Create ~/.local/bin
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
+    state: directory
+    mode: '0755'
+
+- name: Install disk-autoplay.sh script
+  ansible.builtin.copy:
+    src: disk-autoplay.sh
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/disk-autoplay.sh"
+    mode: '0755'
+
+- name: Setup disk autoplay udev rule
+  become: true
+  ansible.builtin.template:
+    src: 99-disk-autoplay.rules.j2
+    dest: /etc/udev/rules.d/99-disk-autoplay.rules
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload udev rules
+
+- name: Ensure systemd directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user"
+    state: directory
+    mode: '0755'
+
+- name: Install disk-autoplay user service
+  ansible.builtin.copy:
+    src: disk-autoplay.service
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/disk-autoplay.service"
+    mode: '0644'
+  notify: Reload systemd user daemon
+
+- name: Install update-keydb.sh script
+  ansible.builtin.copy:
+    src: update-keydb.sh
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/update-keydb.sh"
+    mode: '0755'
+
+- name: Install update-keydb user service
+  ansible.builtin.copy:
+    src: update-keydb.service
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/systemd/user/update-keydb.service"
+    mode: '0644'
+  notify: Reload systemd user daemon
+

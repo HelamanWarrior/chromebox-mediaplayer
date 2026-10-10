@@ -5,4 +5,4 @@ Wants=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/home/parker/.local/bin/disc-autoplay.sh
+ExecStart=%h/.local/bin/disk-autoplay.sh
