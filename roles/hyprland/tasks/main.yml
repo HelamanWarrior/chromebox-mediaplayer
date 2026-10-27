@@ -35,14 +35,14 @@
 
 - name: Update hyprland configuration
   ansible.builtin.copy:
-    src: hyprland.lua
-    dest: "{{ hyprland_config_dir }}/hyprland.lua"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: "{{ mediabox_user }}"
     group: "{{ mediabox_user }}"
-    mode: '0644'
+    mode: "{{ item.mode | default('0644') }}"
   loop:
     - { src: hyprland.lua, dest: "{{ hyprland_config_dir }}/hyprland.lua" }
-    - { src: wallpaper_changer.sh, dest: "{{ hyprland_config_dir }}/scripts/wallpaper_changer.sh"}
+    - { src: wallpaper_changer.sh, dest: "{{ hyprland_config_dir }}/scripts/wallpaper_changer.sh", mode: '0755'}
 
 - name: Synchronize device wallpapers
   ansible.posix.synchronize:
