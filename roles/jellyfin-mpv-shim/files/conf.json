@@ -117,7 +117,6 @@
     "photo_display_secs": 5,
     "play_cmd": null,
     "playback_timeout": 30,
-    "player_name": "chromiebox-player",
     "poster_scale": null,
     "pre_media_cmd": "pw-play ~/.local/share/sounds/cast.wav &",
     "prefer_downloaded": true,

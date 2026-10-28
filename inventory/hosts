@@ -1,2 +1,2 @@
 [mediabox]
-chromiebox-g2 ansible_host=10.8.0.5 ansible_user=parker
+dellbox ansible_host=10.42.127.131 ansible_user=mediauser
