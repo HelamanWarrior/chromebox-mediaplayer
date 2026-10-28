@@ -8,6 +8,7 @@
     - "{{ mediabox_conf_dir }}"
     - "{{ systemd_user_dir }}"
     - "{{ mpv_jellyfin_shim_path }}"
+    - "{{ custom_scripts_dir}}"
 
 - name: Update jellyfin-mpv-shim conf.json
   ansible.builtin.copy:
